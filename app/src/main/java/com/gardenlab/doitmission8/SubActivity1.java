@@ -33,7 +33,8 @@ public class SubActivity1 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivityForResult(intent,RESULT_OK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
             }
         });
 

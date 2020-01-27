@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
 
                 if(!id.equals("") && !pw.equals("")) {
                     Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("name", "main");
                     startActivityForResult(intent, REQUEST_CODE_MENU);
                 } else {
@@ -56,6 +55,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        clearState();
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
         saveState();
@@ -64,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        Toast.makeText(this,"Request from sub", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"Result from sub", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -90,5 +95,12 @@ public class MainActivity extends AppCompatActivity {
             edit_id.setText(id);
             edit_pw.setText(pw);
         }
+    }
+
+    protected void clearState() {
+        SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.clear();
+        editor.commit();
     }
 }
